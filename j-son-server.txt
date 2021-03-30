@@ -1,0 +1,6 @@
+pour lancer le serveur --> json-server --watch products.json --port 8000
+
+
+
+
+
