@@ -50,7 +50,11 @@ function ArticleDetails(match) {
           image={article.image}
           title="product image"
         /> */}
-        <img src={article.image} className={classes.media}></img>
+        <img
+          src={article.image}
+          className={classes.media}
+          alt="photo_article"
+        ></img>
         <Typography variant="body2" color="textSecondary" component="p">
           {article.description}
         </Typography>

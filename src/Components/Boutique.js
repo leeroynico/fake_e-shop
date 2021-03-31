@@ -1,21 +1,21 @@
 import React from "react";
 import Article from "./Article";
 import axios from "axios";
-import Panier from "./Panier";
 import { useEffect, useState } from "react";
 import Box from "@material-ui/core/Box";
 let url = "https://fakestoreapi.com/products";
+let urlPanier = "http://localhost:8000/products";
 
 function Boutique() {
   const [boutique, setBoutique] = useState([]);
 
-  //récupération des datas
+  //récupération des datas du shop
   async function getProducts() {
     try {
       const response = await axios.get(url);
       setBoutique(response.data);
     } catch (error) {
-      console.error("message erreur fetch : " + error);
+      console.error("message erreur axios boutique : " + error);
     }
   }
   useEffect(() => {
@@ -23,10 +23,13 @@ function Boutique() {
   }, []);
 
   //panier
-  const [panier, setpanier] = useState([]);
-  const acheter = (item) => {
-    setpanier([...panier, item]);
-  };
+  async function acheter(article) {
+    try {
+      await axios.post(urlPanier, article);
+    } catch (error) {
+      console.error("message erreur axios panier : " + error);
+    }
+  }
 
   //pagination
   const [articlesParPage, setarticlesParPage] = useState(5);
@@ -36,11 +39,9 @@ function Boutique() {
   useEffect(() => {
     setlastPage(Math.ceil(boutique.length / articlesParPage));
   }, [boutique]);
-  console.log(panier);
 
   return (
     <div>
-      <Panier panier={panier} />;
       <Box display="flex" justifyContent="space-around" align-item="center">
         {boutique.slice(startSlice, articlesParPage).map((article) => (
           <Article
@@ -82,23 +83,6 @@ function Boutique() {
         }}
       >
         next
-      </button>
-      <button
-        onClick={function write() {
-          axios
-            .post("/product", {
-              firstName: "Fred",
-              lastName: "Flintstone",
-            })
-            .then(function (response) {
-              console.log(response);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
-        }}
-      >
-        ecrire dans db.json
       </button>
     </div>
   );
