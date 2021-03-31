@@ -3,7 +3,7 @@ import Nav from "./Components/Nav";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ArticleDetails from "./pages/ArticleDetails";
 import Boutique from "./Components/Boutique";
-import Panier from "./Components/Panier";
+import Panier from "./Components/panier/Panier";
 import Page404 from "./pages/Page404";
 import { PanierProvider } from "./Components/PanierContext";
 

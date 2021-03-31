@@ -6,7 +6,7 @@ export const PanierProvider = (props) => {
   const [panier, setPanier] = useState([]);
 
   return (
-    <PanierContext.Provider value={panier}>
+    <PanierContext.Provider value={[panier, setPanier]}>
       {props.children}
     </PanierContext.Provider>
   );

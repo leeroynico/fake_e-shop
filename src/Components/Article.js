@@ -24,7 +24,6 @@ const useStyles = makeStyles({
 
 function Article(props) {
   const classes = useStyles();
-
   return (
     <Card className={classes.card}>
       <CardActionArea>

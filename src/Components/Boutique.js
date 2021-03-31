@@ -3,10 +3,9 @@ import Article from "./Article";
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import Box from "@material-ui/core/Box";
-import PanierContext from "./PanierContext";
+import { PanierContext } from "./PanierContext";
 
 let url = "https://fakestoreapi.com/products";
-let urlPanier = "http://localhost:8000/products";
 
 function Boutique() {
   const [boutique, setBoutique] = useState([]);
@@ -34,8 +33,8 @@ function Boutique() {
 
   //gestion panier
   const [panier, setPanier] = useContext(PanierContext);
-  function acheter(product) {
-    setPanier((previousProduct) => [...previousProduct, product]);
+  function acheter(article) {
+    setPanier((monPanier) => [...monPanier, article]);
   }
 
   return (
