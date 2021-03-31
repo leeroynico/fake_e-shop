@@ -1,14 +1,15 @@
 import React from "react";
 import Article from "./Article";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Box from "@material-ui/core/Box";
+import PanierContext from "./PanierContext";
+
 let url = "https://fakestoreapi.com/products";
 let urlPanier = "http://localhost:8000/products";
 
 function Boutique() {
   const [boutique, setBoutique] = useState([]);
-
   //récupération des datas du shop
   async function getProducts() {
     try {
@@ -22,23 +23,20 @@ function Boutique() {
     getProducts();
   }, []);
 
-  //panier
-  async function acheter(article) {
-    try {
-      await axios.post(urlPanier, article);
-    } catch (error) {
-      console.error("message erreur axios panier : " + error);
-    }
-  }
-
   //pagination
-  const [articlesParPage, setarticlesParPage] = useState(5);
+  const [articlesParPage, setarticlesParPage] = useState(4);
   const [startSlice, setstartSlice] = useState(0);
   const [currentPage, setcurrentPage] = useState(1);
   const [lastPage, setlastPage] = useState(0);
   useEffect(() => {
     setlastPage(Math.ceil(boutique.length / articlesParPage));
   }, [boutique]);
+
+  //gestion panier
+  const [panier, setPanier] = useContext(PanierContext);
+  function acheter(product) {
+    setPanier((previousProduct) => [...previousProduct, product]);
+  }
 
   return (
     <div>

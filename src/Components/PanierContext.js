@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useState, createContext } from "react";
 
-export const PanierContext = React.createContext();
+export const PanierContext = createContext();
 
 export const PanierProvider = (props) => {
-  return <PanierContext>{props.children}</PanierContext>;
+  const [panier, setPanier] = useState([]);
+
+  return (
+    <PanierContext.Provider value={panier}>
+      {props.children}
+    </PanierContext.Provider>
+  );
 };

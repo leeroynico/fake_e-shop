@@ -1,23 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useContext } from "react";
 import { Box, Button, Badge } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import axios from "axios";
 
 let urlPanier = "http://localhost:8000/products";
 function Nav() {
-  const [panier, setPanier] = useState([]);
-  //récupération des datas du panier
-  function getPanier() {
-    axios.get(urlPanier).then(function (response) {
-      setPanier(response.data);
-    });
-  }
-  useEffect(() => {
-    getPanier();
-  }, []);
-
   return (
     <Box
       display="flex"
@@ -31,7 +19,7 @@ function Nav() {
           home
         </Button>
         <Button component={Link} to="/panier">
-          <Badge badgeContent={panier.length} color="secondary">
+          <Badge badgeContent={3} color="secondary">
             <ShoppingCartIcon fontSize="large" />
           </Badge>
         </Button>

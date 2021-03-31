@@ -5,6 +5,7 @@ import ArticleDetails from "./pages/ArticleDetails";
 import Boutique from "./Components/Boutique";
 import Panier from "./Components/Panier";
 import Page404 from "./pages/Page404";
+import { PanierProvider } from "./Components/PanierContext";
 
 function App() {
   // COOKIES
@@ -16,15 +17,17 @@ function App() {
   // document.cookie = "cookie=test;expires=" + 0 + ";";
 
   return (
-    <Router>
-      <Nav />
-      <Switch>
-        <Route path="/article/:id" component={ArticleDetails} />
-        <Route path="/" exact component={Boutique} />
-        <Route path="/panier" exact component={Panier} />
-        <Route component={Page404} />
-      </Switch>
-    </Router>
+    <PanierProvider>
+      <Router>
+        <Nav />
+        <Switch>
+          <Route path="/article/:id" component={ArticleDetails} />
+          <Route path="/" exact component={Boutique} />
+          <Route path="/panier" exact component={Panier} />
+          <Route component={Page404} />
+        </Switch>
+      </Router>
+    </PanierProvider>
   );
 }
 
