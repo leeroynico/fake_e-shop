@@ -55,7 +55,7 @@ function Panier() {
 
   //supprimer article
   function deleteArticle(monArticle) {
-    setPanier(panier.filter((x) => x.title != monArticle.title));
+    setPanier(panier.filter((x) => x.title !== monArticle.title));
   }
 
   console.log(panier);

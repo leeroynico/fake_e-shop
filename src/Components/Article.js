@@ -16,16 +16,17 @@ const useStyles = makeStyles({
     height: 140,
   },
   card: {
-    maxWidth: 200,
+    maxHeight: 600,
+    maxWidth: 300,
     marginLeft: 20,
-    marginTop: 20,
+    marginRight: 20,
   },
 });
 
 function Article(props) {
   const classes = useStyles();
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} key={props.id}>
       <CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
