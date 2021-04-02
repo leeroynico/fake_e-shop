@@ -2,11 +2,9 @@ import { React, useEffect, useState, useContext, useCallback } from "react";
 import Article from "./Article";
 import axios from "axios";
 import Box from "@material-ui/core/Box";
-import { Grid } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 import { PanierContext } from "./PanierContext";
-
-let url = "https://fakestoreapi.com/products";
+const url = "https://fakestoreapi.com/products";
 
 function Boutique() {
   const [boutique, setBoutique] = useState([]);
@@ -22,14 +20,6 @@ function Boutique() {
   useEffect(() => {
     getProducts();
   }, []);
-
-  //pagination
-
-  const [currentPage, setcurrentPage] = useState(1);
-  const [lastPage, setlastPage] = useState(0);
-  useEffect(() => {
-    setlastPage(Math.ceil(boutique.length / articlesParPage));
-  }, [boutique]);
 
   //gestion panier
   const [panier, setPanier] = useContext(PanierContext);
@@ -73,15 +63,12 @@ function Boutique() {
     setPaginationMui(value);
   };
 
-  //console.log(boutique.slice(paginationMui, paginationMui + articlesParPage));
   return (
     <div>
-      {/* <Grid container justify="center" spacing={2}> */}
       <Box display="flex" justifyContent="space-around" align-item="center">
         {boutique
           .slice(paginationMui, paginationMui + articlesParPage)
           .map((article) => (
-            // <Grid item xs={6} md={3}>
             <Article
               key={"article-" + article.id}
               title={article.title}
@@ -100,36 +87,6 @@ function Boutique() {
         variant="outlined"
         color="secondary"
       />
-      {/* <button
-        onClick={function change(e) {
-          if (currentPage < 2) {
-            e.preventDefault();
-          } else {
-            setstartSlice(startSlice + 6);
-            setarticlesParPage(articlesParPage + 6);
-            setcurrentPage(currentPage - 1);
-          }
-        }}
-      >
-        previous
-      </button>
-      <span>
-        {currentPage} / {lastPage}
-      </span>
-      <button
-        onClick={function change(e) {
-          if (currentPage >= lastPage) {
-            e.preventDefault();
-          } else {
-            setstartSlice(startSlice - 6);
-            setarticlesParPage(articlesParPage - 6);
-            setcurrentPage(currentPage + 1);
-          }
-        }}
-      >
-        next
-      </button> */}
-      <p>{paginationMui}</p>
     </div>
   );
 }
