@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { PanierContext } from "../PanierContext";
 import {
   TableContainer,
@@ -8,13 +8,15 @@ import {
   TableCell,
   TableBody,
   Paper,
-  TextField,
 } from "@material-ui/core";
 import "./panierStyle.css";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+
 const TVA = 20;
 
 function Panier() {
-  const [panier] = useContext(PanierContext);
+  const [panier, setPanier] = useContext(PanierContext);
 
   //formatage number
   function format(int) {
@@ -40,8 +42,24 @@ function Panier() {
     let TVA = tax();
     return sum + TVA;
   }
+
+  //modifier la quantité
+  function modifiyQty(monArticle) {
+    let newQty = prompt("quantité");
+    setPanier(
+      panier.map((x) =>
+        x.title === monArticle.title ? { ...monArticle, qty: newQty } : x
+      )
+    );
+  }
+
+  //supprimer article
+  function deleteArticle(monArticle) {
+    setPanier(panier.filter((x) => x.title != monArticle.title));
+  }
+
   console.log(panier);
-  if (panier.length == 0) {
+  if (panier.length === 0) {
     return <div>le panier est vide</div>;
   } else {
     return (
@@ -62,6 +80,7 @@ function Panier() {
                 <TableCell align="center" colSpan={3}>
                   total
                 </TableCell>
+                <TableCell align="center" colSpan={1}></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -71,15 +90,28 @@ function Panier() {
                     {article.title}
                   </TableCell>
                   <TableCell align="center" colSpan={2}>
-                    <TextField label="Qté" type="number">
-                      {article.qty}
-                    </TextField>
+                    {article.qty}{" "}
+                    <EditIcon
+                      fontSize="small"
+                      className="edit"
+                      onClick={() => {
+                        modifiyQty(article);
+                      }}
+                    />
                   </TableCell>
                   <TableCell align="center" colSpan={3}>
                     {format(article.price)}
                   </TableCell>
                   <TableCell align="center" colSpan={3}>
                     {format(article.price * article.qty)}
+                  </TableCell>
+                  <TableCell align="center" colSpan={1}>
+                    <DeleteForeverIcon
+                      fontSize="small"
+                      onClick={() => {
+                        deleteArticle(article);
+                      }}
+                    />
                   </TableCell>
                 </TableRow>
               ))}
@@ -88,7 +120,7 @@ function Panier() {
                 <TableCell colSpan={3} align="right">
                   sous total
                 </TableCell>
-                <TableCell colSpan={3} align="left">
+                <TableCell colSpan={4} align="left">
                   {format(sousTotal())}
                 </TableCell>
               </TableRow>
@@ -97,7 +129,7 @@ function Panier() {
                 <TableCell colSpan={3} align="right">
                   TVA (20%)
                 </TableCell>
-                <TableCell colSpan={3} align="left">
+                <TableCell colSpan={4} align="left">
                   {format(tax())}
                 </TableCell>
               </TableRow>
@@ -106,23 +138,13 @@ function Panier() {
                 <TableCell colSpan={3} align="right">
                   Total
                 </TableCell>
-                <TableCell colSpan={3} align="left">
+                <TableCell colSpan={4} align="left">
                   {format(total())}
                 </TableCell>
               </TableRow>
             </TableBody>
           </Table>
         </TableContainer>
-        <TextField label="Qté" type="number" />
-        <TextField
-          id="outlined-number"
-          label="Number"
-          type="number"
-          InputLabelProps={{
-            shrink: true,
-          }}
-          variant="outlined"
-        />
       </div>
     );
   }
