@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { PanierContext } from "../PanierContext";
+import React, { useContext, useState } from "react";
+// import { PanierContext } from "../PanierContext";
 import {
   TableContainer,
   Table,
@@ -12,141 +12,164 @@ import {
 import "./panierStyle.css";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import { connect } from "react-redux";
+import { addArticle } from "../../redux/cart/cart.actions";
 
 const TVA = 20;
 
-function Panier() {
-  const [panier, setPanier] = useContext(PanierContext);
+const fakeArticle = {
+  qty: 2,
+  description: "short en 44",
+};
 
-  //formatage number
-  function format(int) {
-    return parseFloat(int).toFixed(2) + " €";
-  }
+function Panier(props) {
+  const { test, addItem } = props;
+  console.log(test);
+  // const [panier, setPanier] = useState([]);
+  // // const [panier, setPanier] = useContext(PanierContext);
 
-  //faire le sous total
-  function sousTotal() {
-    let sousTotal = 0;
-    for (let index = 0; index < panier.length; index++) {
-      sousTotal += panier[index].price * panier[index].qty;
-    }
-    return sousTotal;
-  }
+  // //formatage number
+  // function format(int) {
+  //   return parseFloat(int).toFixed(2) + " €";
+  // }
 
-  //faire le total
-  function tax() {
-    let sum = sousTotal();
-    return (sum * TVA) / 100;
-  }
-  function total() {
-    let sum = sousTotal();
-    let TVA = tax();
-    return sum + TVA;
-  }
+  // //faire le sous total
+  // function sousTotal() {
+  //   let sousTotal = 0;
+  //   for (let index = 0; index < panier.length; index++) {
+  //     sousTotal += panier[index].price * panier[index].qty;
+  //   }
+  //   return sousTotal;
+  // }
 
-  //modifier la quantité
-  function modifiyQty(monArticle) {
-    let newQty = prompt("quantité");
-    setPanier(
-      panier.map((x) =>
-        x.title === monArticle.title ? { ...monArticle, qty: newQty } : x
-      )
-    );
-  }
+  // //faire le total
+  // function tax() {
+  //   let sum = sousTotal();
+  //   return (sum * TVA) / 100;
+  // }
+  // function total() {
+  //   let sum = sousTotal();
+  //   let TVA = tax();
+  //   return sum + TVA;
+  // }
 
-  //supprimer article
-  function deleteArticle(monArticle) {
-    setPanier(panier.filter((x) => x.title != monArticle.title));
-  }
+  // //modifier la quantité
+  // function modifiyQty(monArticle) {
+  //   let newQty = prompt("quantité");
+  //   setPanier(
+  //     panier.map((x) =>
+  //       x.title === monArticle.title ? { ...monArticle, qty: newQty } : x
+  //     )
+  //   );
+  // }
 
-  console.log(panier);
-  if (panier.length === 0) {
-    return <div>le panier est vide</div>;
-  } else {
-    return (
-      <div>
-        <TableContainer component={Paper} className="tableContainer">
-          <Table size="small">
-            <TableHead>
-              <TableRow>
+  // //supprimer article
+  // function deleteArticle(monArticle) {
+  //   setPanier(panier.filter((x) => x.title != monArticle.title));
+  // }
+
+  return (
+    <div>
+      <span>
+        je suis le panier :
+        {/* {props.article.map((item, index) => {
+          return (
+            <p key={index}>
+              dans mon panier il y a{item.qty} {item.description}
+            </p>
+          );
+        })} */}
+      </span>
+      <button onClick={() => addItem(fakeArticle)}>ajoutes moi </button>
+      {/* <TableContainer component={Paper} className="tableContainer">
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center" colSpan={3}>
+                nom de l'article
+              </TableCell>
+              <TableCell align="center" colSpan={2}>
+                quantité
+              </TableCell>
+              <TableCell align="center" colSpan={3}>
+                prix unitaire
+              </TableCell>
+              <TableCell align="center" colSpan={3}>
+                total
+              </TableCell>
+              <TableCell align="center" colSpan={1}></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {panier.map((article) => (
+              <TableRow key={article.idpanier}>
                 <TableCell align="center" colSpan={3}>
-                  nom de l'article
+                  {article.title}
                 </TableCell>
                 <TableCell align="center" colSpan={2}>
-                  quantité
+                  {article.qty}{" "}
+                  <EditIcon
+                    fontSize="small"
+                    className="edit"
+                    onClick={() => {
+                      modifiyQty(article);
+                    }}
+                  />
                 </TableCell>
                 <TableCell align="center" colSpan={3}>
-                  prix unitaire
+                  {format(article.price)}
                 </TableCell>
                 <TableCell align="center" colSpan={3}>
-                  total
+                  {format(article.price * article.qty)}
                 </TableCell>
-                <TableCell align="center" colSpan={1}></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {panier.map((article) => (
-                <TableRow key={article.idpanier}>
-                  <TableCell align="center" colSpan={3}>
-                    {article.title}
-                  </TableCell>
-                  <TableCell align="center" colSpan={2}>
-                    {article.qty}{" "}
-                    <EditIcon
-                      fontSize="small"
-                      className="edit"
-                      onClick={() => {
-                        modifiyQty(article);
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell align="center" colSpan={3}>
-                    {format(article.price)}
-                  </TableCell>
-                  <TableCell align="center" colSpan={3}>
-                    {format(article.price * article.qty)}
-                  </TableCell>
-                  <TableCell align="center" colSpan={1}>
-                    <DeleteForeverIcon
-                      fontSize="small"
-                      onClick={() => {
-                        deleteArticle(article);
-                      }}
-                    />
-                  </TableCell>
-                </TableRow>
-              ))}
-              <TableRow className="total">
-                <TableCell colSpan={4}></TableCell>
-                <TableCell colSpan={3} align="right">
-                  sous total
-                </TableCell>
-                <TableCell colSpan={4} align="left">
-                  {format(sousTotal())}
+                <TableCell align="center" colSpan={1}>
+                  <DeleteForeverIcon
+                    fontSize="small"
+                    onClick={() => {
+                      deleteArticle(article);
+                    }}
+                  />
                 </TableCell>
               </TableRow>
-              <TableRow className="total">
-                <TableCell colSpan={4}></TableCell>
-                <TableCell colSpan={3} align="right">
-                  TVA (20%)
-                </TableCell>
-                <TableCell colSpan={4} align="left">
-                  {format(tax())}
-                </TableCell>
-              </TableRow>
-              <TableRow className="total">
-                <TableCell colSpan={4}></TableCell>
-                <TableCell colSpan={3} align="right">
-                  Total
-                </TableCell>
-                <TableCell colSpan={4} align="left">
-                  {format(total())}
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-    );
-  }
+            ))}
+            <TableRow className="total">
+              <TableCell colSpan={4}></TableCell>
+              <TableCell colSpan={3} align="right">
+                sous total
+              </TableCell>
+              <TableCell colSpan={4} align="left">
+                {format(sousTotal())}
+              </TableCell>
+            </TableRow>
+            <TableRow className="total">
+              <TableCell colSpan={4}></TableCell>
+              <TableCell colSpan={3} align="right">
+                TVA (20%)
+              </TableCell>
+              <TableCell colSpan={4} align="left">
+                {format(tax())}
+              </TableCell>
+            </TableRow>
+            <TableRow className="total">
+              <TableCell colSpan={4}></TableCell>
+              <TableCell colSpan={3} align="right">
+                Total
+              </TableCell>
+              <TableCell colSpan={4} align="left">
+                {format(total())}
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer> */}
+    </div>
+  );
 }
-export default Panier;
+const mapStateToProps = (state) => ({
+  test: state.cart,
+});
+const mapDispatchToProps = (dispatch) => ({
+  addItem: (item) => dispatch(addArticle(item)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Panier);

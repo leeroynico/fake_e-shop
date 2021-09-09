@@ -5,8 +5,8 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { PanierContext } from "./PanierContext";
 
 function Nav() {
-  const [panier] = useContext(PanierContext);
-  const [qty, setQty] = useState(0);
+  // const [panier] = useContext(PanierContext);
+  // const [qty, setQty] = useState(0);
 
   //récupération du nombre d'article
   // useEffect(
@@ -19,13 +19,13 @@ function Nav() {
   //   }),
   //   [panier]
   // );
-  useEffect(() => {
-    if (panier.length === 0) {
-      setQty(0);
-    } else {
-      setQty(panier.map((x) => x.qty).reduce((a, b) => a + b));
-    }
-  }, [panier]);
+  // useEffect(() => {
+  //   if (panier.length === 0) {
+  //     setQty(0);
+  //   } else {
+  //     setQty(panier.map((x) => x.qty).reduce((a, b) => a + b));
+  //   }
+  // }, [panier]);
 
   // function incrementqty() {
   //   let qty = 0;
@@ -50,7 +50,7 @@ function Nav() {
           home
         </Button>
         <Button component={Link} to="/panier">
-          <Badge badgeContent={qty} color="secondary">
+          <Badge badgeContent={2} color="secondary">
             <ShoppingCartIcon fontSize="large" />
           </Badge>
         </Button>
