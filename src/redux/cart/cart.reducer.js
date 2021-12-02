@@ -1,10 +1,9 @@
 import { CartActionTypes } from "./cart.types";
+//reducer => fait qqchose
 
+//mon panier est un tableau d'articles
 const initialState = {
-  articles: [
-    { qty: 2, description: "jean en 40" },
-    { qty: 1, description: "short en 38" },
-  ],
+  articles: [],
 };
 
 const cartReducer = (state = initialState, action) => {
@@ -15,6 +14,14 @@ const cartReducer = (state = initialState, action) => {
         ...state,
         articles: [...state.articles, action.payload],
       };
+    case CartActionTypes.REMOVE_ITEM:
+      return {
+        ...state,
+        articles: state.articles.filter(
+          (item) => item.title !== action.payload.title
+        ),
+      };
+
     default:
       return state;
   }

@@ -10,6 +10,8 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { addArticle } from "../redux/cart/cart.actions";
 
 const useStyles = makeStyles({
   media: {
@@ -23,6 +25,7 @@ const useStyles = makeStyles({
 });
 
 function Article(props) {
+  const { cart, addItem } = props;
   const classes = useStyles();
   return (
     <Card className={classes.card}>
@@ -43,7 +46,7 @@ function Article(props) {
       </CardActionArea>
       <CardActions>
         <Button
-          onClick={() => props.acheter(props)}
+          onClick={() => addItem(props)}
           size="small"
           color="primary"
           variant="contained"
@@ -64,4 +67,12 @@ function Article(props) {
   );
 }
 
-export default Article;
+const mapStateToProps = (state) => ({
+  cart: state.cart,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  addItem: (item) => dispatch(addArticle(item)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Article);

@@ -13,45 +13,37 @@ import "./panierStyle.css";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import { connect } from "react-redux";
-import { addArticle } from "../../redux/cart/cart.actions";
+import { addArticle, removeArticle } from "../../redux/cart/cart.actions";
 
 const TVA = 20;
 
-const fakeArticle = {
-  qty: 2,
-  description: "short en 44",
-};
-
 function Panier(props) {
-  const { test, addItem } = props;
-  console.log(test);
-  // const [panier, setPanier] = useState([]);
-  // // const [panier, setPanier] = useContext(PanierContext);
+  const { cart, removeItem } = props;
+  console.log(cart);
+  //formatage number
+  function format(int) {
+    return parseFloat(int).toFixed(2) + " €";
+  }
 
-  // //formatage number
-  // function format(int) {
-  //   return parseFloat(int).toFixed(2) + " €";
-  // }
+  //faire le sous total
+  function sousTotal() {
+    let sousTotal = 0;
+    // for (let index = 0; index < panier.length; index++) {
+    //   sousTotal += panier[index].price * panier[index].qty;
+    // }
+    return sousTotal;
+  }
 
-  // //faire le sous total
-  // function sousTotal() {
-  //   let sousTotal = 0;
-  //   for (let index = 0; index < panier.length; index++) {
-  //     sousTotal += panier[index].price * panier[index].qty;
-  //   }
-  //   return sousTotal;
-  // }
-
-  // //faire le total
-  // function tax() {
-  //   let sum = sousTotal();
-  //   return (sum * TVA) / 100;
-  // }
-  // function total() {
-  //   let sum = sousTotal();
-  //   let TVA = tax();
-  //   return sum + TVA;
-  // }
+  //faire le total
+  function tax() {
+    let sum = sousTotal();
+    return (sum * TVA) / 100;
+  }
+  function total() {
+    let sum = sousTotal();
+    let TVA = tax();
+    return sum + TVA;
+  }
 
   // //modifier la quantité
   // function modifiyQty(monArticle) {
@@ -70,18 +62,7 @@ function Panier(props) {
 
   return (
     <div>
-      <span>
-        je suis le panier :
-        {/* {props.article.map((item, index) => {
-          return (
-            <p key={index}>
-              dans mon panier il y a{item.qty} {item.description}
-            </p>
-          );
-        })} */}
-      </span>
-      <button onClick={() => addItem(fakeArticle)}>ajoutes moi </button>
-      {/* <TableContainer component={Paper} className="tableContainer">
+      <TableContainer component={Paper} className="tableContainer">
         <Table size="small">
           <TableHead>
             <TableRow>
@@ -101,8 +82,8 @@ function Panier(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {panier.map((article) => (
-              <TableRow key={article.idpanier}>
+            {cart.articles.map((article, index) => (
+              <TableRow key={index}>
                 <TableCell align="center" colSpan={3}>
                   {article.title}
                 </TableCell>
@@ -112,7 +93,7 @@ function Panier(props) {
                     fontSize="small"
                     className="edit"
                     onClick={() => {
-                      modifiyQty(article);
+                      //modifiyQty(article);
                     }}
                   />
                 </TableCell>
@@ -126,7 +107,8 @@ function Panier(props) {
                   <DeleteForeverIcon
                     fontSize="small"
                     onClick={() => {
-                      deleteArticle(article);
+                      console.log("article à suppr=>", article);
+                      removeItem(article);
                     }}
                   />
                 </TableCell>
@@ -161,15 +143,17 @@ function Panier(props) {
             </TableRow>
           </TableBody>
         </Table>
-      </TableContainer> */}
+      </TableContainer>
     </div>
   );
 }
+
 const mapStateToProps = (state) => ({
-  test: state.cart,
+  cart: state.cart,
 });
+
 const mapDispatchToProps = (dispatch) => ({
-  addItem: (item) => dispatch(addArticle(item)),
+  removeItem: (item) => dispatch(removeArticle(item)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Panier);
