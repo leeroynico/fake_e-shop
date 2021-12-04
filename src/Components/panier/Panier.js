@@ -19,7 +19,7 @@ const TVA = 20;
 
 function Panier(props) {
   const { cart, removeItem } = props;
-  console.log(cart);
+
   //formatage number
   function format(int) {
     return parseFloat(int).toFixed(2) + " €";
@@ -45,6 +45,15 @@ function Panier(props) {
     return sum + TVA;
   }
 
+  // const quantite = () => {
+  //   let doublon = cart.articles.find((item) => item.id === item.id);
+  //   return doublon.length;
+  // };
+  // console.log(
+  //   "finf =>",
+  //   cart.articles.find((item) => item.id === item.id)
+  // );
+  // console.log("quantité", quantite());
   // //modifier la quantité
   // function modifiyQty(monArticle) {
   //   let newQty = prompt("quantité");

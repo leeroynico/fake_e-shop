@@ -2,10 +2,12 @@ import React from "react";
 import { Box, Button, Badge } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
-function Nav(props) {
-  const { cart } = props;
+function Nav() {
+  // useSelector => importer le state du reducer
+  const cart = useSelector((state) => state.cart);
+  const cartQty = cart.articles.reduce((acc, curr) => acc + curr.qty, 0);
 
   return (
     <Box
@@ -20,7 +22,7 @@ function Nav(props) {
           home
         </Button>
         <Button component={Link} to="/panier">
-          <Badge badgeContent={cart.articles.length} color="secondary">
+          <Badge badgeContent={cartQty} color="secondary">
             <ShoppingCartIcon fontSize="large" />
           </Badge>
         </Button>
@@ -28,8 +30,5 @@ function Nav(props) {
     </Box>
   );
 }
-const mapStateToProps = (state) => ({
-  cart: state.cart,
-});
 
-export default connect(mapStateToProps)(Nav);
+export default Nav;

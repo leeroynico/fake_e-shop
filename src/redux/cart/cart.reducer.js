@@ -6,20 +6,35 @@ const initialState = {
   articles: [],
 };
 
+//ajouter un article au panier et modifier la quantité si l'article existe déjà
+const addToCart = (article, articles) => {
+  const doublon = articles.find((item) => item.id === article.id);
+  if (!doublon) {
+    return [...articles, { ...article, qty: 1 }];
+  } else {
+    return articles.map((x) =>
+      article.id === x.id ? { ...doublon, qty: doublon.qty + 1 } : x
+    );
+  }
+};
+
 const cartReducer = (state = initialState, action) => {
   switch (action.type) {
-    // const { qty, description } = action.payload;
     case CartActionTypes.ADD_ITEM:
       return {
         ...state,
-        articles: [...state.articles, action.payload],
+        articles: addToCart(action.payload, state.articles),
       };
     case CartActionTypes.REMOVE_ITEM:
       return {
         ...state,
         articles: state.articles.filter(
-          (item) => item.title !== action.payload.title
+          (item) => item.id !== action.payload.id
         ),
+      };
+    case CartActionTypes.UPDATE_ITEM:
+      return {
+        ...state,
       };
 
     default:

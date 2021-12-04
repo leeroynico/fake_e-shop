@@ -51,6 +51,7 @@ function Boutique() {
           .map((article) => (
             <Article
               key={"article-" + article.id}
+              id={article.id}
               title={article.title}
               image={article.image}
               description={article.description}
