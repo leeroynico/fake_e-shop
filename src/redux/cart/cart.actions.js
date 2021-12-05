@@ -14,3 +14,10 @@ export const removeArticle = (item) => {
     payload: item,
   };
 };
+export const updateCartQty = (id, qty) => {
+  return {
+    type: CartActionTypes.UPDATE_CART,
+    payload: { id, qty },
+    //  qty: qty,
+  };
+};

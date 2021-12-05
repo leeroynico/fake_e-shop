@@ -18,6 +18,10 @@ const addToCart = (article, articles) => {
   }
 };
 
+const updateQty = (articles, id, qty) => {
+  return articles.map((x) => (x.id === id ? { ...x, qty: qty } : x));
+};
+
 const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case CartActionTypes.ADD_ITEM:
@@ -32,9 +36,14 @@ const cartReducer = (state = initialState, action) => {
           (item) => item.id !== action.payload.id
         ),
       };
-    case CartActionTypes.UPDATE_ITEM:
+    case CartActionTypes.UPDATE_CART:
       return {
         ...state,
+        articles: updateQty(
+          state.articles,
+          action.payload.id,
+          action.payload.qty
+        ),
       };
 
     default:
