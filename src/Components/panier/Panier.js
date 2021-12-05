@@ -7,6 +7,7 @@ import {
   TableCell,
   TableBody,
   Paper,
+  Button,
 } from "@material-ui/core";
 import "./panierStyle.css";
 import EditIcon from "@material-ui/icons/Edit";
