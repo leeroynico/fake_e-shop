@@ -120,6 +120,7 @@ function Panier(props) {
                 <TableCell colSpan={3} align="right">
                   TVA (20%)
                 </TableCell>
+                x
                 <TableCell colSpan={4} align="left">
                   {format(tax())}
                 </TableCell>
