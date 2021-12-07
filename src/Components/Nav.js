@@ -20,13 +20,13 @@ const Background = styled.div`
     rgba(240, 188, 212, 1) 100%
   );
 `;
+const LinkStyled = styled(Link)`
+  text-decoration: none;
+`;
 
-const ButtonMui = styled(Button)`
+const ButtonMui = styled.button`
   @import url("https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&display=swap");
   font-family: "Cabin Sketch", cursive;
-  font-size: 1.5rem;
-  color: #fff;
-  margin-right: 5%;
 `;
 
 function Nav() {
@@ -37,11 +37,10 @@ function Nav() {
   return (
     <Background>
       <Box display="flex" justifyContent="space-around" alignItems="center">
-        <TitleStyled>Mon Fake shop </TitleStyled>
+        <LinkStyled to="/">
+          <TitleStyled>Mon Fake shop</TitleStyled>
+        </LinkStyled>
         <Box display="flex" justifyContent="space-around" alignItems="center">
-          <ButtonMui component={Link} to="/">
-            home
-          </ButtonMui>
           <Button component={Link} to="/panier">
             <Badge badgeContent={cartQty} color="secondary">
               <ShoppingCartIcon fontSize="large" style={{ color: "white" }} />

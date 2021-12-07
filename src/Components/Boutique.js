@@ -32,24 +32,24 @@ function Boutique() {
   }, [boutique]);
 
   //gestion panier
-  const [panier, setPanier] = useContext(PanierContext);
-  const [count, setCount] = useState(1);
-  function acheter(article) {
-    const doublon = panier.find((x) => x.title === article.title);
-    setCount((count) => count + 1);
-    if (!doublon) {
-      setPanier((monPanier) => [
-        ...monPanier,
-        { ...article, qty: 1, idpanier: count },
-      ]);
-    } else {
-      setPanier(
-        panier.map((x) =>
-          x.title === article.title ? { ...doublon, qty: doublon.qty + 1 } : x
-        )
-      );
-    }
-  }
+  // const [panier, setPanier] = useContext(PanierContext);
+  // const [count, setCount] = useState(1);
+  // function acheter(article) {
+  //   const doublon = panier.find((x) => x.title === article.title);
+  //   setCount((count) => count + 1);
+  //   if (!doublon) {
+  //     setPanier((monPanier) => [
+  //       ...monPanier,
+  //       { ...article, qty: 1, idpanier: count },
+  //     ]);
+  //   } else {
+  //     setPanier(
+  //       panier.map((x) =>
+  //         x.title === article.title ? { ...doublon, qty: doublon.qty + 1 } : x
+  //       )
+  //     );
+  //   }
+  // }
 
   return (
     <div>

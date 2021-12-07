@@ -1,7 +1,7 @@
 import { React, useEffect, useState, useContext, useCallback } from "react";
 import Article from "../Article";
 import axios from "axios";
-import Box from "@material-ui/core/Box";
+import { Box } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 
 const url = "https://fakestoreapi.com/products";
@@ -22,22 +22,22 @@ function Boutique() {
   }, []);
 
   //PAGINATION Material UI
-  const [articlesParPage, setarticlesParPage] = useState(2);
   const [paginationMui, setPaginationMui] = useState(1);
-  const [width, setWidth] = useState(0);
-
-  const setResize = useCallback((e) => {
-    setWidth(e.target.innerWidth);
-  }, []);
+  const [windowSize, setWindowSize] = useState({
+    width: undefined,
+  });
   useEffect(() => {
-    window.addEventListener("resize", setResize);
-    return () => {
-      window.removeEventListener("resize", setResize);
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+      });
     };
-  }, [setResize]);
-  useEffect(() => {
-    width > 800 ? setarticlesParPage(4) : setarticlesParPage(2);
-  }, [width]);
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  const articlesParPage =
+    windowSize.width > 1200 ? 5 : windowSize.width > 800 ? 4 : 2;
 
   const handleChange = (event, value) => {
     setPaginationMui(value);
@@ -45,6 +45,14 @@ function Boutique() {
 
   return (
     <div>
+      <Pagination
+        count={Math.ceil(boutique.length / articlesParPage)}
+        page={paginationMui}
+        onChange={handleChange}
+        variant="outlined"
+        color="secondary"
+        style={{ marginTop: "20px" }}
+      />
       <Box display="flex" justifyContent="space-around" align-item="center">
         {boutique
           .slice(paginationMui, paginationMui + articlesParPage)
@@ -60,13 +68,6 @@ function Boutique() {
             />
           ))}
       </Box>
-      <Pagination
-        count={Math.ceil(boutique.length / articlesParPage)}
-        page={paginationMui}
-        onChange={handleChange}
-        variant="outlined"
-        color="secondary"
-      />
     </div>
   );
 }
