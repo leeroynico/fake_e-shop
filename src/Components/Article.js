@@ -23,6 +23,8 @@ const useStyles = makeStyles({
     marginTop: 20,
   },
 });
+//@import url('https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&display=swap');
+//font-family: 'Cabin Sketch', cursive;
 
 function Article(props) {
   const { cart, addItem } = props;
