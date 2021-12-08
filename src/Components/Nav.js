@@ -38,7 +38,7 @@ function Nav() {
     <Background>
       <Box display="flex" justifyContent="space-around" alignItems="center">
         <LinkStyled to="/">
-          <TitleStyled>Mon Fake shop</TitleStyled>
+          <TitleStyled>Mon Fake Shop</TitleStyled>
         </LinkStyled>
         <Box display="flex" justifyContent="space-around" alignItems="center">
           <Button component={Link} to="/panier">
