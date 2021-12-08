@@ -17,7 +17,7 @@ const addToCart = (article, articles) => {
     );
   }
 };
-
+//modifier les quantités d'un article à partir du panier
 const updateQty = (articles, id, qty) => {
   return articles.map((x) => (x.id === id ? { ...x, qty: qty } : x));
 };

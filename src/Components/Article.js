@@ -24,6 +24,7 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
+    backgroundColor: "rgba(240, 188, 212,0.35)",
   },
 });
 //@import url('https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&display=swap');
@@ -37,7 +38,9 @@ function Article(props) {
       <CardActionArea>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {props.title}
+            {props.title.length > 20
+              ? `${props.title.slice(0, 20)}...`
+              : props.title}
           </Typography>
           <CardMedia
             className={classes.media}

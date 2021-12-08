@@ -4,7 +4,7 @@ import { useEffect, useState, useContext } from "react";
 import Article from "../Components/Article";
 
 function DetailsArticle(match) {
-  const [article, setarticle] = useState("");
+  const [article, setarticle] = useState(null);
   async function getArticleDetails() {
     const response = await axios.get(
       `https://fakestoreapi.com/products/${match.match.params.id}`
@@ -16,17 +16,18 @@ function DetailsArticle(match) {
   }, []);
 
   return (
-    <div>
-      <Article
-        key={"article-" + article.id}
-        title={article.title}
-        image={article.image}
-        description={article.description}
-        link={article.id}
-        price={article.price}
-      //  acheter={acheter}
-      />
-    </div>
+    <>
+      {article && (
+        <Article
+          key={"article-" + article.id}
+          title={article.title}
+          image={article.image}
+          description={article.description}
+          link={article.id}
+          price={article.price}
+        />
+      )}
+    </>
   );
 }
 
