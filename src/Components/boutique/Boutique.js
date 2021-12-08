@@ -51,29 +51,35 @@ function Boutique(props) {
       <span
         style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}
       >
-        <Pagination
-          count={Math.ceil(articleFromStore[0].length / articlesParPage)}
-          page={paginationMui}
-          onChange={handleChange}
-          variant="outlined"
-          color="secondary"
-          size="large"
-        />
+        {articleFromStore.lengtt > 0 ? (
+          <Pagination
+            count={Math.ceil(articleFromStore[0].length / articlesParPage)}
+            page={paginationMui}
+            onChange={handleChange}
+            variant="outlined"
+            color="secondary"
+            size="large"
+          />
+        ) : (
+          ""
+        )}
       </span>
       <Box display="flex" justifyContent="space-around" align-item="center">
-        {articleFromStore[0]
-          .slice(paginationMui, paginationMui + articlesParPage)
-          .map((article) => (
-            <Article
-              key={"article-" + article.id}
-              id={article.id}
-              title={article.title}
-              image={article.image}
-              description={article.description}
-              link={article.id}
-              price={article.price}
-            />
-          ))}
+        {articleFromStore.length > 0
+          ? articleFromStore[0]
+              .slice(paginationMui, paginationMui + articlesParPage)
+              .map((article) => (
+                <Article
+                  key={"article-" + article.id}
+                  id={article.id}
+                  title={article.title}
+                  image={article.image}
+                  description={article.description}
+                  link={article.id}
+                  price={article.price}
+                />
+              ))
+          : ""}
       </Box>
     </div>
   );
