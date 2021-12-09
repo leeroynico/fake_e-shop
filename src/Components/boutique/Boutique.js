@@ -37,7 +37,7 @@ function Boutique(props) {
       <span
         style={{ display: "flex", justifyContent: "center", marginTop: "10px" }}
       >
-        {articleFromStore.lengtt > 0 ? (
+        {articleFromStore.length > 0 ? (
           <Pagination
             count={Math.ceil(articleFromStore[0].length / articlesParPage)}
             page={paginationMui}
