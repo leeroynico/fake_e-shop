@@ -10,20 +10,6 @@ import { connect } from "react-redux";
 
 function Boutique(props) {
   const { setArticleToStore, articleFromStore } = props;
-  // const [boutique, setBoutique] = useState([]);
-  // //récupération des datas du shop
-  // async function getProducts() {
-  //   try {
-  //     const response = await axios.get(url);
-  //     setBoutique(response.data);
-  //     setArticleToStore(response.data);
-  //   } catch (error) {
-  //     console.error("message erreur axios boutique : " + error);
-  //   }
-  // }
-  // useEffect(() => {
-  //   getProducts();
-  // }, []);
 
   //PAGINATION Material UI
   const [paginationMui, setPaginationMui] = useState(1);
