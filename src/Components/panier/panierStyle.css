@@ -1,11 +1,21 @@
 .total {
   background-color: whitesmoke;
+  font-size: 1.5rem;
+}
+.MuiTableCell-alignLeft {
+  font-size: 1.5rem;
 }
 
 .tableContainer {
-  margin-top: 5%;
+  margin-top: 2%;
+  width: 60%;
 }
 
 .edit {
   margin-left: 20%;
+}
+
+.underline {
+  text-decoration: underline;
+  align-items: center;
 }

@@ -8,14 +8,24 @@ import {
   TableBody,
   Paper,
   Button,
+  Typography,
+  Dialog,
+  DialogTitle,
 } from "@material-ui/core";
 import "./panierStyle.css";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import { connect } from "react-redux";
 import { updateCartQty, removeArticle } from "../../redux/cart/cart.actions";
+import { Link } from "react-router-dom";
+import styled from "styled-components/macro";
 
 const TVA = 20;
+
+const StyledTypo = styled.div`
+  @import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
+  font-family: "Abril Fatface", cursive;
+`;
 
 function Panier(props) {
   const { cart, removeItem, updateCart } = props;
@@ -52,93 +62,162 @@ function Panier(props) {
     }
   };
 
+  //gestion de la modale
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div>
+      <Dialog onClose={handleClose} aria-labelledby="dialog" open={open}>
+        <DialogTitle id="dialog">
+          Voilà où la démonstration s'arrête ! Merci beaucoup !
+        </DialogTitle>
+      </Dialog>
       {cart.articles.length > 0 ? (
-        <TableContainer component={Paper} className="tableContainer">
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell align="center" colSpan={3}>
-                  nom de l'article
-                </TableCell>
-                <TableCell align="center" colSpan={2}>
-                  quantité
-                </TableCell>
-                <TableCell align="center" colSpan={3}>
-                  prix unitaire
-                </TableCell>
-                <TableCell align="center" colSpan={3}>
-                  total
-                </TableCell>
-                <TableCell align="center" colSpan={1}></TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {cart.articles.map((article, index) => (
-                <TableRow key={index}>
-                  <TableCell align="center" colSpan={3}>
-                    {article.title}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h4" align="center" style={{ marginTop: "20px" }}>
+            <StyledTypo> Mon panier </StyledTypo>
+          </Typography>
+          <TableContainer component={Paper} className="tableContainer">
+            <Table size="small">
+              <TableHead>
+                <TableRow
+                  style={{
+                    backgroundColor: "rgba(240, 188, 212,0.35)",
+                  }}
+                >
+                  <TableCell align="center" colSpan={3} className="underline">
+                    nom de l'article
                   </TableCell>
-                  <TableCell align="center" colSpan={2}>
-                    {article.qty}{" "}
-                    <EditIcon
-                      fontSize="small"
-                      className="edit"
-                      onClick={() => {
-                        updateCartOnClick(article.id);
-                      }}
-                    />
+                  <TableCell align="center" colSpan={2} className="underline">
+                    quantité
                   </TableCell>
-                  <TableCell align="center" colSpan={3}>
-                    {format(article.price)}
+                  <TableCell align="center" colSpan={3} className="underline">
+                    prix unitaire
                   </TableCell>
-                  <TableCell align="center" colSpan={3}>
-                    {format(article.price * article.qty)}
+                  <TableCell align="center" colSpan={3} className="underline">
+                    total
                   </TableCell>
-                  <TableCell align="center" colSpan={1}>
-                    <DeleteForeverIcon
-                      fontSize="small"
-                      onClick={() => {
-                        removeItem(article);
-                      }}
-                    />
+                  <TableCell align="center" colSpan={1}></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {cart.articles.map((article, index) => (
+                  <TableRow key={index}>
+                    <TableCell align="center" colSpan={3}>
+                      <Link
+                        to={`/article/${article.id}`}
+                        style={{
+                          textDecoration: "none",
+                          color: "black",
+                        }}
+                      >
+                        {article.title}
+                      </Link>
+                    </TableCell>
+
+                    <TableCell align="center" colSpan={2}>
+                      {article.qty}
+                      <EditIcon
+                        fontSize="small"
+                        className="edit"
+                        onClick={() => {
+                          updateCartOnClick(article.id);
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell align="center" colSpan={3}>
+                      {format(article.price)}
+                    </TableCell>
+                    <TableCell align="center" colSpan={3}>
+                      {format(article.price * article.qty)}
+                    </TableCell>
+                    <TableCell align="center" colSpan={1}>
+                      <DeleteForeverIcon
+                        fontSize="small"
+                        onClick={() => {
+                          removeItem(article);
+                        }}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+                <TableRow className="total">
+                  <TableCell colSpan={5}></TableCell>
+                  <TableCell colSpan={3} align="right">
+                    sous total
+                  </TableCell>
+                  <TableCell colSpan={4} align="right">
+                    {format(sousTotal())}
                   </TableCell>
                 </TableRow>
-              ))}
-              <TableRow className="total">
-                <TableCell colSpan={4}></TableCell>
-                <TableCell colSpan={3} align="right">
-                  sous total
-                </TableCell>
-                <TableCell colSpan={4} align="left">
-                  {format(sousTotal())}
-                </TableCell>
-              </TableRow>
-              <TableRow className="total">
-                <TableCell colSpan={4}></TableCell>
-                <TableCell colSpan={3} align="right">
-                  TVA (20%)
-                </TableCell>
-                x
-                <TableCell colSpan={4} align="left">
-                  {format(tax())}
-                </TableCell>
-              </TableRow>
-              <TableRow className="total">
-                <TableCell colSpan={4}></TableCell>
-                <TableCell colSpan={3} align="right">
-                  Total
-                </TableCell>
-                <TableCell colSpan={4} align="left">
-                  {format(total)}
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
+                <TableRow className="total">
+                  <TableCell colSpan={5}></TableCell>
+                  <TableCell colSpan={3} align="right">
+                    TVA (20%)
+                  </TableCell>
+                  <TableCell colSpan={4} align="right">
+                    {format(tax())}
+                  </TableCell>
+                </TableRow>
+                <TableRow className="total">
+                  <TableCell colSpan={5}></TableCell>
+                  <TableCell
+                    colSpan={3}
+                    align="right"
+                    size="medium"
+                    style={{ fontSize: "1.5rem" }}
+                  >
+                    Total
+                  </TableCell>
+                  <TableCell
+                    colSpan={4}
+                    align="right"
+                    style={{ fontSize: "1.5rem" }}
+                  >
+                    {format(total)}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "end",
+                marginRight: "2%",
+                marginTop: "5px",
+                marginBottom: "5px",
+              }}
+            >
+              <Button
+                size="large"
+                color="primary"
+                variant="contained"
+                onClick={handleClickOpen}
+              >
+                COMMANDER
+              </Button>
+            </div>
+          </TableContainer>
+        </div>
       ) : (
-        <span>Votre panier est vide</span>
+        <Typography align="center" variant="h4" style={{ marginTop: "20px" }}>
+          <StyledTypo>
+            Votre panier est vide, retournez sur la <Link to="/">boutique</Link>
+          </StyledTypo>
+        </Typography>
       )}
     </div>
   );
